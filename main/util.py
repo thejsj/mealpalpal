@@ -83,7 +83,12 @@ class MealPal(object):
         else:
             schedule_id = self.get_schedule_by_restaurant_name(
                 restaurant_name, city_name, city_id)['id']
+        return self.reserve_meal_by_schedule_id(schedule_id, cancel_current_meal)
 
+    def reserve_meal_by_schedule_id(
+            self, schedule_id, cancel_current_meal=False):
+        if cancel_current_meal:
+            self.cancel_current_meal()
         reserve_data = {
             'quantity': 1,
             'schedule_id': schedule_id,

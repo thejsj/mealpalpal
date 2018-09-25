@@ -13,7 +13,7 @@ class User(AbstractUser):
         return self.email
 
 class MealRequest(models.Model):
-    city_id= models.CharField(max_length=255)
+    city_id = models.CharField(max_length=255)
     meal_id = models.CharField(max_length=255)
     time = models.CharField(max_length=255)
     date = models.DateField(default=date.today)
