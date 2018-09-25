@@ -1,0 +1,21 @@
+
+{% load static %}
+<html>
+    <head>
+        <title>MealPalPal</title>
+    </head>
+    <body>
+        <div class="page-header">
+            <h1><a href="/">MealPalPal</a></h1>
+            <ul>
+                <a href="/">Home</a>
+                <a href="/request-meal">Request Meal</a>
+            </ul>
+        </div>
+
+        <div class="content container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

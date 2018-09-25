@@ -1,0 +1,6 @@
+db.sqlite3
+main/__pycache__
+main/migrations/__pycache__
+mealpalpal/__pycache__
+**/__pycache__/**
+*.pyc
