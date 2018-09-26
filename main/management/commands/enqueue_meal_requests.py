@@ -1,7 +1,8 @@
-from main.tasks import debug_task
+from main.tasks import reserve_meal
 from django.core.management.base import BaseCommand, CommandError
 from datetime import date
 from main.models import User, MealRequest
+import datetime
 from django.core.exceptions import ObjectDoesNotExist
 
 class Command(BaseCommand):
@@ -9,15 +10,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print("Obtaining meal requests")
-        today = date.today()
+        today = datetime.date.today()
+        tomorrow = today + datetime.timedelta(days=1)
         try:
-            objects = MealRequest.objects.filter(date=today).values()
+            objects = MealRequest.objects.filter(date=tomorrow).values()
         except ObjectDoesNotExist as e:
             self.stdout.write(self.style.SUCCESS('No meal requests found. Done'))
             return
         for o in list(objects):
-            print('Id', o["id"])
-            debug_task.delay(meal_request_id=o["id"])
+            reserve_meal.delay(meal_request_id=o["id"])
 
         #  debug_task.delay()
         self.stdout.write(self.style.SUCCESS('Done'))

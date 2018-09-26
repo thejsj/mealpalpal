@@ -35,7 +35,14 @@ def tomorrow():
     return today + datetime.timedelta(days=1)
 
 def get_times():
-    return [("11:30", "11:30", ), ("11:45", "11:45", ), ("12:00", "12:00", ), ("12:15", "12:15", ), ("12:30", "12:30", ), ("12:45", "12:45", )]
+    return [
+        ("11:30am-11:45am", "11:30", ),
+        ("11:45am-12:00pm", "11:45", ),
+        ("12:00pm-12:15pm", "12:00", ),
+        ("12:15pm-12:30pm", "12:15", ),
+        ("12:30pm-12:45pm", "12:30", ),
+        ("12:45pm-1:00pm", "12:45", )
+        ]
 
 class MealRequestForm(forms.Form):
     city_id= forms.ChoiceField(choices=[])

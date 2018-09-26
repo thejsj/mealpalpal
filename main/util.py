@@ -86,7 +86,7 @@ class MealPal(object):
         return self.reserve_meal_by_schedule_id(schedule_id, cancel_current_meal)
 
     def reserve_meal_by_schedule_id(
-            self, schedule_id, cancel_current_meal=False):
+            self, schedule_id, timing, cancel_current_meal=False):
         if cancel_current_meal:
             self.cancel_current_meal()
         reserve_data = {
