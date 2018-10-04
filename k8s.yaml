@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealpalpal
+  labels:
+    app: mealpalpal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mealpalpal
+  template:
+    metadata:
+      labels:
+        app: mealpalpal
+    securityContext:
+      runAsUser: 0
+    spec:
+      containers:
+      - name: main
+        image: quay.io/hiphipjorge/mealpalpal:0.0.5
+        command: [ "python", "./manage.py", "runserver", "0.0.0.0:8000" ]
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SERVER_NAME
+          value: "0.0.0.0:5000"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 3
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mealpalpal
+spec:
+  type: NodePort
+  selector:
+    app: mealpalpal
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+    nodePort: 30080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mealpalpal-ingress
+  annotations:
+    kubernetes.io/ingress.class: "public"
+    # kubernetes.io/ingress.global-static-ip-name: "mealpalpal-ip"
+spec:
+  backend:
+    serviceName: mealpalpal
+    servicePort: 80

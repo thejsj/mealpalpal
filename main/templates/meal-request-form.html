@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>Yeah, we really do need your password in order to be able to login to mealpal for you 😞<p>
+
+{% if user.mealpal_user and user.mealpal_password %}
 <form action="{{ request.path }}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">
 </form>
+{% else %}
+<p>You have not setup your MealPass username and password. <a href="/account">Go do it now!</a>
+{% endif %}
 {% endblock %}

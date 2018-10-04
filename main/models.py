@@ -14,7 +14,13 @@ class User(AbstractUser):
 
 class MealRequest(models.Model):
     city_id = models.CharField(max_length=255)
+    # TODO: Change into a model
+    city_name = models.CharField(max_length=255) # For View purpose only
     meal_id = models.CharField(max_length=255)
+    # TODO: Change into a model
+    meal_name = models.CharField(max_length=255) # For View purposes only
+    restaurant_id = models.CharField(max_length=255) # For View purposes only
+    restaurant_name = models.CharField(max_length=255) # For View purposes only
     time = models.CharField(max_length=255)
     date = models.DateField(default=date.today)
     user =  models.ForeignKey(User, on_delete=models.CASCADE)

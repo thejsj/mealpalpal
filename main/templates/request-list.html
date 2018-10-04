@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if view.meal_requests|length > 0 %}
+<h1>Your Requests</h1>
+
+<table class="table">
+  <thead>
+   <tr>
+      <td>Date</td>
+      <td>Meal</td>
+      <td>Status</td>
+      <td>City</td>
+    </tr>
+  </thead>
+
+  {% for book in view.meal_requests %}
+    <tr>
+      <td>{{ book.date }}</td>
+      <td>{{ book.meal_name}}</td>
+      <td>{{ book.restaurant_name}}</td>
+      <td>{{ book.status }}</td>
+    </tr>
+  {% endfor %}
+<table>
+{% else %}
+<p>You have no meal requests</p>
+{% endif %}
+{% endblock %}

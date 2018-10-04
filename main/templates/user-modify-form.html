@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>Yeah, we really do need your password in order to be able to login to mealpal for you 😞<p>
 <form action="{{ request.path }}" method="post">
     {% csrf_token %}
     {{ form }}

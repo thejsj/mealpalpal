@@ -63,7 +63,6 @@ class MealRequestForm(forms.Form):
         cities = list(map(get_city_obj, mp.get_cities()))
         sf_object_id = list(filter(lambda x : x[1] == "San Francisco", cities))[0]
         meal_response = mp.get_schedules(sf_object_id[1], sf_object_id[0])
-        print("meal_response", meal_response)
         meals = list(map(get_meal_obj, meal_response))
 
         self.fields['city_id'] = forms.ChoiceField(

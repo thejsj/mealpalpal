@@ -43,23 +43,34 @@ class MealPal(object):
             self.cities = r.json()['result']
         return self.cities
 
-    def get_city(self, city_name):
+    def get_city_by_name(self, city_name):
         if not self.cities:
             self.get_cities()
         return filter(lambda x: x['name'] == city_name, self.cities)[0]
 
-    def get_schedules(self, city_name, city_id=None):
+    def get_city_by_id(self, city_id):
+        if not self.cities:
+            self.get_cities()
+        return list(filter(lambda x: x['objectId'] == city_id, self.cities))[0]
+
+    def get_schedules(self, city_name=None, city_id=None):
         if not city_id:
-            city_id = self.get_city(city_name)['objectId']
+            city_id = self.get_city_by_name(city_name)['objectId']
         r = requests.get(
             MENU_URL % city_id, headers=self.headers, cookies=self.cookies)
         self.schedules = r.json()['schedules']
         return self.schedules
 
+    def get_meal_by_id(self, city_id, meal_id):
+        if not self.schedules:
+            self.get_schedules(None, city_id)
+        objs = list(filter(lambda x: x['id'] == meal_id, self.schedules))
+        return objs[0]
+
     def get_schedule_by_restaurant_name(
             self, restaurant_name, city_name=None, city_id=None):
         if not self.schedules:
-            self.gget_citieset_schedules(city_name, city_id)
+            self.get_schedules(city_name, city_id)
         return filter(lambda x: x['restaurant']['name'] == restaurant_name,
                       self.schedules)[0]
 

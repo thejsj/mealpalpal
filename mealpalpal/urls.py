@@ -18,8 +18,10 @@ from main import views
 from django.urls import include, path
 
 urlpatterns = [
-    path('', views.UserModifyFormView.as_view(), name='UserModifyFormView'),
+    path('', views.MealRequestListView.as_view(), name='MealRequestListView'),
+    path('account', views.UserModifyFormView.as_view(), name='UserModifyFormView'),
     path('request-meal', views.MealRequestFormView.as_view(), name='MealRequestFormView'),
     path('success', views.MealRequestSuccessView.as_view(), name='MealRequestSuccessView'),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
