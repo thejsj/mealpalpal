@@ -27,6 +27,11 @@ def get_city_obj(x):
     return (x["objectId"], x["name"],)
 
 def get_meal_obj(x):
+    print('get_meal_obj')
+    print(x)
+    import json
+    print(json.dumps(x))
+    print(x["meal"], x["restaurant"])
     name = x["meal"]["name"] + " " + x["restaurant"]["name"]
     return (x["id"], name)
 
@@ -58,20 +63,23 @@ class MealRequestForm(forms.Form):
 
         # TODO: Cache logins requests depending on city
         mp = MealPal()
-        mp.login(user["mealpal_user"], user["mealpal_password"])
+        status_code = mp.login(user["mealpal_user"], user["mealpal_password"])
+        if status_code != 200:
+            raise Exception("Could not login to MealPal with your credentials")
 
         cities = list(map(get_city_obj, mp.get_cities()))
         sf_object_id = list(filter(lambda x : x[1] == "San Francisco", cities))[0]
-        meal_response = mp.get_schedules(sf_object_id[1], sf_object_id[0])
+        meal_response = mp.get_schedules(None, sf_object_id[0])
         meals = list(map(get_meal_obj, meal_response))
 
         self.fields['city_id'] = forms.ChoiceField(
             choices=cities,
             initial=sf_object_id,
-            widget=forms.Select(attrs={'readonly':'readonly'}),
+            widget=forms.Select(attrs={'readonly':'readonly', 'class': 'selectpicker', 'data-live-search': 'true'}),
             required=True
         )
         self.fields['meal_id'] = forms.ChoiceField(
             choices=meals,
+            widget=forms.Select(attrs={'class': 'selectpicker', 'data-live-search': 'true'}),
             required=True
         )

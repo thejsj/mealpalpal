@@ -58,7 +58,11 @@ class MealPal(object):
             city_id = self.get_city_by_name(city_name)['objectId']
         r = requests.get(
             MENU_URL % city_id, headers=self.headers, cookies=self.cookies)
-        self.schedules = r.json()['schedules']
+        json_response = r.json()
+        if not ('schedules' in json_response):
+            print("ERROR", json_response)
+            raise Exception("Error with the request to MealPal API")
+        self.schedules = json_response['schedules']
         return self.schedules
 
     def get_meal_by_id(self, city_id, meal_id):

@@ -38,6 +38,31 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 3
 ---
+## TODO: Add Redis deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealpalpal-worker
+  labels:
+    app: mealpalpal-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mealpalpal-worker
+  template:
+    metadata:
+      labels:
+        app: mealpalpal-worker
+    securityContext:
+      runAsUser: 0
+    spec:
+      containers:
+      - name: main
+        image: quay.io/hiphipjorge/mealpalpal:0.0.5
+        command: [ "celery", "-A", "main", "-l", "DEBUG", "worker" ]
+---
 kind: Service
 apiVersion: v1
 metadata:
