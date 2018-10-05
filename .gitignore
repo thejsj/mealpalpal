@@ -4,3 +4,5 @@ main/migrations/__pycache__
 mealpalpal/__pycache__
 **/__pycache__/**
 *.pyc
+venv
+.DS_Store
